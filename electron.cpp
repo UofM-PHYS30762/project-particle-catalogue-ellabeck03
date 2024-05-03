@@ -41,10 +41,6 @@ void Electron::validate_deposited_energies(const std::vector<double>& deposited_
 // Print data method override
 void Electron::print_data() {
     std::cout << "Particle type: " << (get_antiparticle_status() ? "Positron" : "Electron") << std::endl;
+    std::cout<<"Charge: "<<charge<<"e"<<std::endl;
     Lepton::print_data();  // Call the base class print_data
-    std::cout << "Deposited energies: ";
-    for (double energy : deposited_energies) {
-        std::cout << energy << " MeV ";
-    }
-    std::cout << std::endl;
 }

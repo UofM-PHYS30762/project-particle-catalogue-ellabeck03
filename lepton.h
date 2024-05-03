@@ -1,8 +1,15 @@
 #ifndef LEPTON_H
 #define LEPTON_H
 
+#include<iostream>
+#include<string>
+#include<vector>
+#include<cmath>
+
 #include "particle.h"
 #include "fourmomentum.h"
+
+using std::string;
 
 class Lepton : public Particle 
 {
@@ -12,7 +19,7 @@ private:
 public:
     // Constructors
     Lepton();  // Default constructor
-    Lepton(double mass, const FourMomentum& fourMomentum, int leptonNumber);
+    Lepton(double mass_in, const FourMomentum& four_momentum_in, int lepton_number_in);
 
     // Getter
     int get_lepton_number() const;

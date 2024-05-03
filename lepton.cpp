@@ -21,7 +21,7 @@ void Lepton::antiparticle()
 // Overriding the print_data method
 void Lepton::print_data()
 {
-    Particle::print_data(); // Call base class print method
     std::cout << "Lepton Number: " << lepton_number << std::endl;
+    Particle::print_data(); // Call base class print method
     std::cout << "--------------" << std::endl;
 }

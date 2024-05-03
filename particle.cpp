@@ -40,5 +40,4 @@ void Particle::print_data()
   std::cout<<"p_x: "<<four_momentum.get_momentum()[0]<<std::endl;
   std::cout<<"p_y: "<<four_momentum.get_momentum()[1]<<std::endl;
   std::cout<<"p_z: "<<four_momentum.get_momentum()[2]<<std::endl;
-  std::cout<<"--------------"<<std::endl;
 }
