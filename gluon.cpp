@@ -12,7 +12,7 @@ Gluon::Gluon() : Particle(), colours({"red", "antired"}) {}
 
 //parameterised constructor
 Gluon::Gluon(double mass_in, const FourMomentum& four_momentum_in, std::vector<std::string> colours_in)
-    : Particle(mass_in, four_momentum_in), colours(colours_in) {}
+    : Particle(mass_in, four_momentum_in, 0, 1), colours(colours_in) {}
 
 //getters
 std::vector<std::string> Gluon::get_colours() const {return colours;}
@@ -20,6 +20,7 @@ std::vector<std::string> Gluon::get_colours() const {return colours;}
 void Gluon::antiparticle() 
 {
     Particle::antiparticle();
+    charge = 0;
 
     for(int i = 0; i < 2; ++i)
     {

@@ -14,7 +14,7 @@ using std::string;
 Neutrino::Neutrino() : Lepton(), has_interacted(false), flavour("electron") {}
 
 //parameterised constructor
-Neutrino::Neutrino(double mass_in, const FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in) : Lepton(mass_in, four_momentum_in, 1), has_interacted(has_interacted_in)
+Neutrino::Neutrino(double mass_in, const FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in) : Lepton(mass_in, four_momentum_in, 0, 1), has_interacted(has_interacted_in)
 {
     set_flavour(flavour_in);
     charge = 0;
@@ -23,7 +23,8 @@ Neutrino::Neutrino(double mass_in, const FourMomentum& four_momentum_in, bool ha
 //getters
 bool Neutrino::get_interaction_status() const {return has_interacted;}
 std::string Neutrino::get_flavour() const {return flavour;}
-int Neutrino::get_charge() const {return 0;}
+double Neutrino::get_charge() const {return 0;}
+std::string Neutrino::get_flavor() const { return "neutrino"; }
 
 //setters
 void Neutrino::set_interaction_status(bool has_interacted_in) {has_interacted = has_interacted_in;}
@@ -55,7 +56,7 @@ void Neutrino::print_data()
         std::cout<<"Particle type: Neutrino"<<std::endl;
     }
 
+    std::cout<<charge<<std::endl;
     std::cout<<"Flavour: "<<flavour<<std::endl;
-    std::cout << "Charge: " << charge << "e" << std::endl;
     Lepton::print_data();
 }

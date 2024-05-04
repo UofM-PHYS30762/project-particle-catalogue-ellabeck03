@@ -22,12 +22,15 @@ public:
   // constructors
   //default constructor
     Quark();
+
+    //parameterised constructor
     Quark(double mass_in, const FourMomentum& four_momentum_in, std::string flavour_in, std::string colour_in);
 
     // Getters
     double get_baryon_number() const;
     std::string get_flavour() const;
     std::string get_colour() const;
+    std::string get_flavor() const override;
 
     void antiparticle() override;
     void print_data() override;

@@ -26,6 +26,7 @@ public:
 
     //getters
     bool get_isolation_status() const;
+    std::string get_flavor() const override;
 
     //setters
     void set_isolation_status(bool is_isolated_in);

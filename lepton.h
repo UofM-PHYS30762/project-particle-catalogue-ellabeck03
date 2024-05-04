@@ -19,11 +19,11 @@ private:
 public:
     // Constructors
     Lepton();  // Default constructor
-    Lepton(double mass_in, const FourMomentum& four_momentum_in, int lepton_number_in);
+    Lepton(double mass_in, const FourMomentum& four_momentum_in, double charge_in, int lepton_number_in);
 
     // Getter
     int get_lepton_number() const;
-
+    virtual std::string get_flavor() const override;
     void antiparticle() override;
     void print_data() override;
 

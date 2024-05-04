@@ -9,16 +9,18 @@
 using std::string;
 
 //default constructor
-Particle::Particle() : charge(-1), mass(0.0) , antiparticle_status(false) {}
+Particle::Particle() : charge(-1), mass(0.0), spin(0.0), antiparticle_status(false) {}
 
 //parameterised constructor
-Particle::Particle(double mass_in, const FourMomentum& four_momentum_in) : charge(-1), four_momentum(four_momentum_in), antiparticle_status(false)
+Particle::Particle(double mass_in, const FourMomentum& four_momentum_in, double charge_in, double spin_in) :  four_momentum(four_momentum_in), antiparticle_status(false), charge(charge_in),
+spin(spin_in)
 {
     set_mass(mass_in);
 }
 
 //getters
-int Particle::get_charge() const {return charge;}
+double Particle::get_charge() const {return charge;}
+double Particle::get_spin() const {return spin;}
 double Particle::get_mass() {return mass;}
 const FourMomentum& Particle::get_four_momentum() const {return four_momentum;}
 bool Particle::get_antiparticle_status() const {return antiparticle_status;}
@@ -36,6 +38,8 @@ void Particle::antiparticle()
 
 void Particle::print_data()
 {
+  std::cout<<"Charge: "<<charge<<"e"<<std::endl;
+  std::cout<<"Spin: "<<spin<<std::endl;
   std::cout<<"Energy: "<<four_momentum.get_energy()<<" MeV"<<std::endl;
   std::cout<<"p_x: "<<four_momentum.get_momentum()[0]<<std::endl;
   std::cout<<"p_y: "<<four_momentum.get_momentum()[1]<<std::endl;

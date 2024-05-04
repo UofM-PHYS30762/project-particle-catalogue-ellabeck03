@@ -13,8 +13,9 @@ using std::string;
 class Particle
 {
 protected:
-    const double light_speed{2.99792458e8};
-    int charge;
+    const double light_speed{1};
+    double charge;
+    double spin;
     double mass;
     FourMomentum four_momentum;
     bool antiparticle_status;
@@ -24,13 +25,15 @@ public:
     Particle();
 
     //parameterised constructor
-    Particle(double mass_in, const FourMomentum& four_momentum_in);
+    Particle(double mass_in, const FourMomentum& four_momentum_in, double charge_in, double spin_in);
 
     //getters
-    virtual int get_charge() const;
+    virtual double get_charge() const;
+    virtual double get_spin() const;
     double get_mass();
     const FourMomentum& get_four_momentum() const;
     bool get_antiparticle_status() const;
+    virtual std::string get_flavor() const { return "none"; }
 
     //setters
     void set_mass(double mass_in);

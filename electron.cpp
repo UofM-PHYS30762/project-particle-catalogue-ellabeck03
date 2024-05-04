@@ -3,11 +3,11 @@
 #include <stdexcept>
 
 // Default constructor
-Electron::Electron() : Lepton(0.511, FourMomentum(), 1), deposited_energies(4, 0.0) {}
+Electron::Electron() : Lepton(0.511, FourMomentum(), -1, 1), deposited_energies(4, 0.0) {}
 
 // Parameterized constructor
 Electron::Electron(double mass_in, const FourMomentum& four_momentum_in, const std::vector<double>& deposited_energies_in)
-    : Lepton(mass_in, four_momentum_in, 1)  // Set lepton number for electron
+    : Lepton(mass_in, four_momentum_in, -1, 1)  // Set lepton number for electron
 {
     set_deposited_energies(deposited_energies_in);
 }
@@ -16,6 +16,7 @@ Electron::Electron(double mass_in, const FourMomentum& four_momentum_in, const s
 const std::vector<double>& Electron::get_deposited_energies() const {
     return deposited_energies;
 }
+std::string Electron::get_flavor() const { return "electron"; }
 
 // Setters
 void Electron::set_deposited_energies(const std::vector<double>& deposited_energies_in) {
@@ -41,6 +42,5 @@ void Electron::validate_deposited_energies(const std::vector<double>& deposited_
 // Print data method override
 void Electron::print_data() {
     std::cout << "Particle type: " << (get_antiparticle_status() ? "Positron" : "Electron") << std::endl;
-    std::cout<<"Charge: "<<charge<<"e"<<std::endl;
     Lepton::print_data();  // Call the base class print_data
 }

@@ -29,7 +29,8 @@ public:
     //getters
     bool get_interaction_status() const;
     std::string get_flavour() const;
-    int get_charge() const override;
+    double get_charge() const override;
+    std::string get_flavor() const override;
 
     //setters
     void set_interaction_status(bool has_interacted_in);

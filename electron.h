@@ -6,7 +6,7 @@
 
 class Electron : public Lepton 
 {
-private:
+protected:
     std::vector<double> deposited_energies; // Energies deposited in calorimeter layers
 
 public:
@@ -16,6 +16,7 @@ public:
 
     // Getters
     const std::vector<double>& get_deposited_energies() const;
+    std::string get_flavor() const override;
 
     // Setters
     void set_deposited_energies(const std::vector<double>& deposited_energies);

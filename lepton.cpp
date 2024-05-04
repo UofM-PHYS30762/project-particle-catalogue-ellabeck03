@@ -2,14 +2,15 @@
 #include <iostream>
 
 // Default constructor
-Lepton::Lepton() : Particle(), lepton_number(1) {} // Assuming default lepton number as +1
+Lepton::Lepton() : Particle(), lepton_number(1) {spin = 1/2;} // Assuming default lepton number as +1
 
 // Parameterized constructor
-Lepton::Lepton(double mass_in, const FourMomentum& four_momentum_in, int lepton_number_in)
-    : Particle(mass_in, four_momentum_in), lepton_number(lepton_number_in) {}
+Lepton::Lepton(double mass_in, const FourMomentum& four_momentum_in, double charge_in, int lepton_number_in)
+    : Particle(mass_in, four_momentum_in, charge_in, 0.5), lepton_number(lepton_number_in) {}
 
 // Getter
 int Lepton::get_lepton_number() const {return lepton_number;}
+std::string Lepton::get_flavor() const {return "lepton";}
 
 // Overriding the antiparticle method
 void Lepton::antiparticle() 
@@ -21,6 +22,7 @@ void Lepton::antiparticle()
 // Overriding the print_data method
 void Lepton::print_data()
 {
+    std::cout<<charge<<std::endl;
     std::cout << "Lepton Number: " << lepton_number << std::endl;
     Particle::print_data(); // Call base class print method
     std::cout << "--------------" << std::endl;
