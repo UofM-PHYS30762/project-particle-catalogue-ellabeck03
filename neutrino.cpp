@@ -24,7 +24,7 @@ Neutrino::Neutrino(double mass_in, const FourMomentum& four_momentum_in, bool ha
 bool Neutrino::get_interaction_status() const {return has_interacted;}
 std::string Neutrino::get_flavour() const {return flavour;}
 double Neutrino::get_charge() const {return 0;}
-std::string Neutrino::get_flavor() const { return "neutrino"; }
+std::string Neutrino::get_type() const { return "neutrino"; }
 
 //setters
 void Neutrino::set_interaction_status(bool has_interacted_in) {has_interacted = has_interacted_in;}

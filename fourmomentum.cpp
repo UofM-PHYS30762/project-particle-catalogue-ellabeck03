@@ -63,12 +63,6 @@ FourMomentum::FourMomentum(FourMomentum&& other) : energy(std::move(other.energy
     std::cout << "Move constructor called" << std::endl;
 }
 
-// Destructor
-FourMomentum::~FourMomentum() 
-{
-    std::cout << "Destroying four momentum information" << std::endl;
-}
-
 // Getter functions
 double FourMomentum::get_energy() const 
 {
@@ -86,4 +80,18 @@ void FourMomentum::validate_energy(double energy_in)
     if (energy_in < 0) {
         throw std::invalid_argument("Energy cannot be negative. Please input a valid energy.");
     }
+}
+
+double FourMomentum::invariant_mass() const {
+    double sum_p_squared = 0.0;
+    for (auto& component : this->momentum) {sum_p_squared += std::pow(component, 2);}
+
+    double mass_squared = std::pow(this->energy, 2) - sum_p_squared;  // E^2 - sum(p_i^2)
+
+    // Check for physical validity (mass_squared should not be negative)
+    if (mass_squared < 0) {
+        throw std::runtime_error("Invariant mass cannot be negative");
+    }
+
+    return std::sqrt(mass_squared);
 }

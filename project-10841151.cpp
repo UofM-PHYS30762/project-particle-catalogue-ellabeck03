@@ -61,42 +61,47 @@ int main()
   FourMomentum gluon1_momentum(100, {5.0, 6.0, 7.0});
   FourMomentum W1_momentum(400, {8.0, 9.0, 10.0});
 
-  Electron electron1(0.511, electron1_momentum, {5, 5, 5, 5});
-  electron1.print_data();
-  std::shared_ptr<Particle> electron1_ptr = std::make_shared<Particle>(electron1);
+  // Electron electron1(0.511, electron1_momentum, {5, 5, 5, 5});
+  // electron1.print_data();
+  // std::shared_ptr<Electron> electron1_ptr = std::make_shared<Electron>(electron1);
 
-  Muon muon1(106, muon1_momentum, false);
-  muon1.print_data();
+  // Muon muon1(106, muon1_momentum, false);
+  // muon1.print_data();
+  // std::shared_ptr<Muon> muon1_ptr = std::make_shared<Muon>(muon1);
 
 
-  Neutrino neutrino1(0.5, neutrino1_momentum, true, "tau");
-  std::shared_ptr<Neutrino> neutrino1_ptr = std::make_shared<Neutrino>(neutrino1);
-  neutrino1.antiparticle();
-  neutrino1.print_data();
+  // Neutrino neutrino1(0.5, neutrino1_momentum, true, "tau");
+  // std::shared_ptr<Neutrino> neutrino1_ptr = std::make_shared<Neutrino>(neutrino1);
+  // neutrino1.antiparticle();
+  // neutrino1.print_data();
 
-  Quark quark1(0.1, quark1_momentum, "up", "red");
+  // Neutrino neutrino2(0.5, neutrino1_momentum, true, "electron");
+  // std::shared_ptr<Neutrino> neutrino2_ptr = std::make_shared<Neutrino>(neutrino2);
+
+  Quark quark1(0.1, quark1_momentum, "bottom", "red");
   quark1.antiparticle();
   std::shared_ptr<Quark> quark1_ptr = std::make_shared<Quark>(quark1);
   quark1.print_data();
 
-  Quark quark2(0.1, quark2_momentum, "down", "red");
+  Quark quark2(0.1, quark2_momentum, "bottom", "red");
   std::shared_ptr<Quark> quark2_ptr = std::make_shared<Quark>(quark2);
   quark1.print_data();
 
-  Tau tau1(1011, tau1_momentum);
-  tau1.print_data();
-  tau1.add_decay_particle(quark1_ptr);
-  tau1.add_decay_particle(quark2_ptr);
-  tau1.add_decay_particle(neutrino1_ptr);
+  // Tau tau1(1011, tau1_momentum);
+  // tau1.print_data();
+  // tau1.add_decay_particle(neutrino1_ptr);
+  // tau1.add_decay_particle(neutrino2_ptr);
+  // tau1.add_decay_particle(electron1_ptr);
 
 
-  Gluon gluon1(50, gluon1_momentum, {"green", "antiblue"});
-  gluon1.antiparticle();
-  gluon1.print_data();
+  // Gluon gluon1(50, gluon1_momentum, {"antigreen", "blue"});
+  // gluon1.antiparticle();
+  // gluon1.print_data();
 
   NonColourBoson w1(200, W1_momentum, "Higgs");
-  w1.add_decay_particle(electron1_ptr);
   w1.print_data();
+  w1.add_decay_particle(quark1_ptr);
+  w1.add_decay_particle(quark2_ptr);
 
 
   return 0;

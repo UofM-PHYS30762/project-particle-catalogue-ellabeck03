@@ -16,7 +16,7 @@ Electron::Electron(double mass_in, const FourMomentum& four_momentum_in, const s
 const std::vector<double>& Electron::get_deposited_energies() const {
     return deposited_energies;
 }
-std::string Electron::get_flavor() const { return "electron"; }
+std::string Electron::get_type() const { return "electron"; }
 
 // Setters
 void Electron::set_deposited_energies(const std::vector<double>& deposited_energies_in) {

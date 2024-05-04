@@ -24,6 +24,7 @@ double Particle::get_spin() const {return spin;}
 double Particle::get_mass() {return mass;}
 const FourMomentum& Particle::get_four_momentum() const {return four_momentum;}
 bool Particle::get_antiparticle_status() const {return antiparticle_status;}
+std::string Particle::get_type() const { return "none"; }
 
 //setters
 void Particle::set_mass(double mass_in) {mass = mass_in;}
@@ -38,6 +39,7 @@ void Particle::antiparticle()
 
 void Particle::print_data()
 {
+  std::cout<<"Invariant mass: "<<four_momentum.invariant_mass()<<std::endl;
   std::cout<<"Charge: "<<charge<<"e"<<std::endl;
   std::cout<<"Spin: "<<spin<<std::endl;
   std::cout<<"Energy: "<<four_momentum.get_energy()<<" MeV"<<std::endl;

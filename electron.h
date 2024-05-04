@@ -16,10 +16,13 @@ public:
 
     // Getters
     const std::vector<double>& get_deposited_energies() const;
-    std::string get_flavor() const override;
+    std::string get_type() const override;
 
     // Setters
     void set_deposited_energies(const std::vector<double>& deposited_energies);
+
+    //Destructor
+    ~Electron() {}
 
     // Validation
     void validate_deposited_energies(const std::vector<double>& deposited_energies);

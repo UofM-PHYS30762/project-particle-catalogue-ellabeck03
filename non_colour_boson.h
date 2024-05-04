@@ -15,7 +15,7 @@ using std::string;
 class NonColourBoson : public Particle
 {
 private:
-    std::string type;
+    std::string flavour;
     std::vector<std::shared_ptr<Particle>> decay_particles;
 
 public:
@@ -23,17 +23,23 @@ public:
     NonColourBoson();
 
     //parameterised constructor
-    NonColourBoson(double mass_in, const FourMomentum& four_momentum_in, std::string type_in);
+    NonColourBoson(double mass_in, const FourMomentum& four_momentum_in, std::string flavour_in);
 
     //getters
-    std::string get_type() const;
+    std::string get_flavour() const;
     std::vector<std::shared_ptr<Particle>> get_decay_particles();
+    std::string get_type() const override;
+
+    //destructor
+    ~NonColourBoson() {}
 
     //function to add a decay particle
     void add_decay_particle(std::shared_ptr<Particle> decay_lepton_in);
 
+    //non-member functions
     virtual void antiparticle() override;
     virtual void print_data() override;
+    void validate_decay() const;
 };
 
 #endif

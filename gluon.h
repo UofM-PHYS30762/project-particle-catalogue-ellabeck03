@@ -24,9 +24,18 @@ public:
 
     //getters
     std::vector<std::string> get_colours() const;
+    std::string get_type() const override;
 
+    //setters
+    void set_colours(std::vector<std::string> colours_in);
+
+    //other member functions
     void antiparticle() override;
     void print_data() override;
+    void validate_colours(std::vector<std::string> colours_in);
+
+    //destructor
+    ~Gluon() {}
     
 };
 

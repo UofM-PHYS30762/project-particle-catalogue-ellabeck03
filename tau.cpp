@@ -9,6 +9,8 @@
 #include "tau.h"
 #include "neutrino.h"
 #include "quark.h"
+#include "electron.h"
+#include "muon.h"
 
 using std::string;
 
@@ -20,6 +22,7 @@ Tau::Tau(double mass_in, const FourMomentum& four_momentum_in) : Lepton(mass_in,
 
 //getters
 std::vector<std::shared_ptr<Particle>> Tau::get_decay_particles() {return decay_particles;}
+std::string Tau::get_type() const {return "tau";}
 
 
 //function to add a decay lepton
@@ -38,14 +41,17 @@ void Tau::validate_decay()
     
     for (const auto& particle : decay_particles) {
         charge_sum += particle->get_charge();
-        std::string flavor = particle->get_flavor();
+        std::string flavor = particle->get_type();
 
         if (dynamic_cast<Neutrino*>(particle.get())) {
             neutrinos.push_back(particle);
-        } else if (dynamic_cast<Lepton*>(particle.get()) && flavor != "tau") {
+            std::cout << "Identified as Neutrino" << std::endl;
+        } else if (dynamic_cast<Electron*>(particle.get()) || dynamic_cast<Muon*>(particle.get())) {
             leptons.push_back(particle);
+            std::cout << "Identified as Lepton with flavor: " << flavor << std::endl; // Debug
         } else if (dynamic_cast<Quark*>(particle.get())) {
             quarks.push_back(particle);
+            std::cout << "Identified as Quark" << std::endl;
         } else {
             throw std::runtime_error("Invalid particle type in Tau decay");
         }
@@ -56,19 +62,29 @@ void Tau::validate_decay()
         throw std::runtime_error("Charge inconsistency detected in Tau decay");
     }
 
-    // Check for valid decay patterns
-    if (!(leptons.size() == 1 && neutrinos.size() == 2 && quarks.empty()) &&  // Leptonic decay
-        !(leptons.empty() && neutrinos.size() == 1 && quarks.size() == 2)) {  // Hadronic decay
+    // Validate decay combinations
+    bool isLeptonic = leptons.size() == 1 && neutrinos.size() == 2 && quarks.empty();
+    bool isHadronic = leptons.empty() && neutrinos.size() == 1 && quarks.size() == 2;
+    if (!isLeptonic && !isHadronic) {
         throw std::runtime_error("Invalid decay combination for Tau");
     }
 
-    // // Further detailed checks can be added here, such as flavor matching for leptonic decays
-    // if (!leptons.empty() && !neutrinos.empty()) {
-    //     // Ensure that the lepton and antineutrino flavors match in leptonic decay
-    //     if (leptons[0]->get_flavor() != neutrinos[0]->get_flavor()) {
-    //         throw std::runtime_error("Flavor mismatch in leptonic decay products");
-    //     }
-    // }
+    // Flavor matching for leptonic decays
+    if (isLeptonic) {
+        std::string leptonFlavor = leptons[0]->get_type();
+        bool flavorMatchFound = false;
+        for (const auto& neutrino : neutrinos) {
+            if (auto specificNeutrino = std::dynamic_pointer_cast<Neutrino>(neutrino)) {
+                if (leptonFlavor == specificNeutrino->get_flavour()) {
+                    flavorMatchFound = true;
+                    break;
+                }
+            }
+        }
+        if (!flavorMatchFound) {
+            throw std::runtime_error("Flavor mismatch in leptonic decay products");
+        }
+    }
     
     std::cout << "Decay check completed successfully.\n";
 }

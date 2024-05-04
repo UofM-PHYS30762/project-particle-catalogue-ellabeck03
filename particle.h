@@ -33,11 +33,14 @@ public:
     double get_mass();
     const FourMomentum& get_four_momentum() const;
     bool get_antiparticle_status() const;
-    virtual std::string get_flavor() const { return "none"; }
+    virtual std::string get_type() const;
 
     //setters
     void set_mass(double mass_in);
     void set_four_momentum(FourMomentum& four_momentum_in);
+
+    //destructor
+    ~Particle() {}
     
     //other member functions
     virtual void antiparticle();

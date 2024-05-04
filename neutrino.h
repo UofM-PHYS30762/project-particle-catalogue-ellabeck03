@@ -30,11 +30,14 @@ public:
     bool get_interaction_status() const;
     std::string get_flavour() const;
     double get_charge() const override;
-    std::string get_flavor() const override;
+    std::string get_type() const override;
 
     //setters
     void set_interaction_status(bool has_interacted_in);
     void set_flavour(std::string flavour_in);
+
+    //destructor
+    ~Neutrino() {}
 
     //validation
     void validate_flavour(std::string flavour_in);

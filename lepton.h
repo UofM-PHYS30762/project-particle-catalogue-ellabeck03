@@ -23,10 +23,12 @@ public:
 
     // Getter
     int get_lepton_number() const;
-    virtual std::string get_flavor() const override;
+    std::string get_type() const override;
     void antiparticle() override;
     void print_data() override;
 
+    //Destructor
+    ~Lepton() {}
 };
 
 #endif

@@ -27,6 +27,10 @@ public:
 
     //getters
     std::vector<std::shared_ptr<Particle>> get_decay_particles();
+    std::string get_type() const override;
+
+    //destructor
+    ~Tau() {}
 
     //function to add a decay lepton
     void add_decay_particle(std::shared_ptr<Particle> particle_in);

@@ -26,10 +26,13 @@ public:
 
     //getters
     bool get_isolation_status() const;
-    std::string get_flavor() const override;
+    std::string get_type() const override;
 
     //setters
     void set_isolation_status(bool is_isolated_in);
+
+    //destructor
+    ~Muon() {}
 
     //other member functions
     virtual void print_data() override;

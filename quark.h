@@ -30,10 +30,18 @@ public:
     double get_baryon_number() const;
     std::string get_flavour() const;
     std::string get_colour() const;
-    std::string get_flavor() const override;
+    std::string get_type() const override;
 
+    //setters
+    void set_colour(std::string colour_in);
+
+    //destructor
+    ~Quark() {}
+
+    //other member functions
     void antiparticle() override;
     void print_data() override;
+    void validate_colour(std::string colour_in);
 
 
 };

@@ -10,7 +10,7 @@ Lepton::Lepton(double mass_in, const FourMomentum& four_momentum_in, double char
 
 // Getter
 int Lepton::get_lepton_number() const {return lepton_number;}
-std::string Lepton::get_flavor() const {return "lepton";}
+std::string Lepton::get_type() const {return "lepton";}
 
 // Overriding the antiparticle method
 void Lepton::antiparticle() 

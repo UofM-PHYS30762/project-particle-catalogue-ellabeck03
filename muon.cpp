@@ -18,7 +18,7 @@ Muon::Muon(double mass_in, const FourMomentum& four_momentum_in, bool isolated_i
 
 //getters
 bool Muon::get_isolation_status() const {return is_isolated;}
-std::string Muon::get_flavor() const { return "muon"; }
+std::string Muon::get_type() const { return "muon"; }
 
 //setters
 void Muon::set_isolation_status(bool is_isolated_in) {is_isolated = is_isolated_in;}

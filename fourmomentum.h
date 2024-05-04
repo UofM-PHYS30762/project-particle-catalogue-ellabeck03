@@ -39,7 +39,7 @@ public:
     FourMomentum(FourMomentum&& other);
 
     //destructor
-    ~FourMomentum();
+    ~FourMomentum() {}
 
     //getter functions
     double get_energy() const;
@@ -48,6 +48,7 @@ public:
 
     //other member functions
     void validate_energy(const double energy_in);
+    double invariant_mass() const;
 
     //friend functions
     friend std::vector<double> sum_four_vectors(const FourMomentum& momentum1, const FourMomentum& momentum2);
