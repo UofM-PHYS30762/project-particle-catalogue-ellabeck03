@@ -50,6 +50,10 @@ public:
     void validate_energy(const double energy_in);
     double invariant_mass() const;
 
+    //operator overloads
+    FourMomentum operator-(const FourMomentum& other) const;
+    FourMomentum operator+(const FourMomentum& other) const;
+
     //friend functions
     friend std::vector<double> sum_four_vectors(const FourMomentum& momentum1, const FourMomentum& momentum2);
     friend double dot_product(const FourMomentum& momentum1, const FourMomentum& momentum2);

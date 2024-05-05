@@ -14,7 +14,8 @@ using std::string;
 Neutrino::Neutrino() : Lepton(), has_interacted(false), flavour("electron") {}
 
 //parameterised constructor
-Neutrino::Neutrino(double mass_in, const FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in) : Lepton(mass_in, four_momentum_in, 0, 1), has_interacted(has_interacted_in)
+Neutrino::Neutrino(double mass_in, FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in) : Lepton(mass_in, determineRestMass(flavour_in), four_momentum_in, 0, 1),
+has_interacted(has_interacted_in)
 {
     set_flavour(flavour_in);
     charge = 0;
@@ -32,6 +33,10 @@ void Neutrino::set_flavour(std::string flavour_in)
 {
     validate_flavour(flavour_in);
     flavour = flavour_in;
+
+    if (flavour_in == "electron") {rest_mass = 0.0000022;}
+    if (flavour_in == "muon") {rest_mass = 0.17;}
+    if (flavour_in == "tau") {rest_mass = 15.5;}
 }
 
 //validation
@@ -59,4 +64,11 @@ void Neutrino::print_data()
     std::cout<<charge<<std::endl;
     std::cout<<"Flavour: "<<flavour<<std::endl;
     Lepton::print_data();
+}
+
+double Neutrino::determineRestMass(const std::string& flavour_in) {
+    if (flavour_in == "electron") {return 0.0000022;}
+    if (flavour_in == "muon") {return 0.17;}
+    if (flavour_in == "tau") {return 15.5;}
+    return 0; // default case
 }

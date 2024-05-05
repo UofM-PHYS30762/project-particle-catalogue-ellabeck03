@@ -18,7 +18,7 @@ using std::string;
 Tau::Tau() : Lepton() {}
 
 //parameterised constructor
-Tau::Tau(double mass_in, const FourMomentum& four_momentum_in) : Lepton(mass_in, four_momentum_in, -1, 1) {}
+Tau::Tau(double mass_in, FourMomentum& four_momentum_in) : Lepton(mass_in, 1777, four_momentum_in, -1, 1) {}
 
 //getters
 std::vector<std::shared_ptr<Particle>> Tau::get_decay_particles() {return decay_particles;}

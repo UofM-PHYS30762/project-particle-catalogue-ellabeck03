@@ -33,7 +33,6 @@ void FourMomentum::set_momentum(const std::vector<double>& momentum_in)
 FourMomentum& FourMomentum::operator=(const FourMomentum& other) 
 {
     if (this != &other) {
-        std::cout << "Assignment operator called" << std::endl;
         energy = other.energy;
         momentum = other.momentum;
     }
@@ -44,7 +43,6 @@ FourMomentum& FourMomentum::operator=(const FourMomentum& other)
 FourMomentum& FourMomentum::operator=(FourMomentum&& other) 
 {
     if (this != &other) {
-        std::cout << "Move operator called" << std::endl;
         std::swap(energy, other.energy);
         std::swap(momentum, other.momentum);
     }
@@ -53,15 +51,11 @@ FourMomentum& FourMomentum::operator=(FourMomentum&& other)
 
 // Copy constructor
 FourMomentum::FourMomentum(const FourMomentum& other) : energy(other.energy), momentum(other.momentum) 
-{
-    std::cout << "Copy constructor called" << std::endl;
-}
+{}
 
 // Move constructor
 FourMomentum::FourMomentum(FourMomentum&& other) : energy(std::move(other.energy)), momentum(std::move(other.momentum)) 
-{
-    std::cout << "Move constructor called" << std::endl;
-}
+{}
 
 // Getter functions
 double FourMomentum::get_energy() const 
@@ -82,6 +76,40 @@ void FourMomentum::validate_energy(double energy_in)
     }
 }
 
+
+//operator overloads
+FourMomentum FourMomentum::operator-(const FourMomentum& other) const 
+{
+    double result_energy = this->energy - other.energy;
+    std::vector<double> result_momentum;
+
+    if (this->momentum.size() != other.momentum.size()) {
+        throw std::length_error("Momentum vectors must have the same length.");
+    }
+
+    for (size_t i = 0; i < this->momentum.size(); ++i) {
+        result_momentum.push_back(this->momentum[i] - other.momentum[i]);
+    }
+
+    return FourMomentum(result_energy, result_momentum);
+}
+
+FourMomentum FourMomentum::operator+(const FourMomentum& other) const 
+{
+    double result_energy = this->energy + other.energy;
+    std::vector<double> result_momentum;
+
+    if (this->momentum.size() != other.momentum.size()) {
+        throw std::length_error("Momentum vectors must have the same length.");
+    }
+
+    for (size_t i = 0; i < this->momentum.size(); ++i) {
+        result_momentum.push_back(this->momentum[i] + other.momentum[i]);
+    }
+    
+    return FourMomentum(result_energy, result_momentum);
+}
+
 double FourMomentum::invariant_mass() const {
     double sum_p_squared = 0.0;
     for (auto& component : this->momentum) {sum_p_squared += std::pow(component, 2);}
@@ -89,9 +117,11 @@ double FourMomentum::invariant_mass() const {
     double mass_squared = std::pow(this->energy, 2) - sum_p_squared;  // E^2 - sum(p_i^2)
 
     // Check for physical validity (mass_squared should not be negative)
-    if (mass_squared < 0) {
+    if (mass_squared < -0.001) {
         throw std::runtime_error("Invariant mass cannot be negative");
     }
+
+    if (mass_squared < 0 && mass_squared > -0.001) {mass_squared = 0;}
 
     return std::sqrt(mass_squared);
 }

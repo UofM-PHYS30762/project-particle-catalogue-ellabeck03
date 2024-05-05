@@ -14,7 +14,7 @@ using std::string;
 Muon::Muon() : Lepton(), is_isolated(false) {}
 
 //parameterised constructor
-Muon::Muon(double mass_in, const FourMomentum& four_momentum_in, bool isolated_in) : Lepton(mass_in, four_momentum_in, -1, 1), is_isolated(isolated_in) {}
+Muon::Muon(double mass_in, FourMomentum& four_momentum_in, bool isolated_in) : Lepton(mass_in, 105.7, four_momentum_in, -1, 1), is_isolated(isolated_in) {}
 
 //getters
 bool Muon::get_isolation_status() const {return is_isolated;}

@@ -17,6 +17,7 @@ protected:
     double charge;
     double spin;
     double mass;
+    double rest_mass{0};
     FourMomentum four_momentum;
     bool antiparticle_status;
 
@@ -25,7 +26,7 @@ public:
     Particle();
 
     //parameterised constructor
-    Particle(double mass_in, const FourMomentum& four_momentum_in, double charge_in, double spin_in);
+    Particle(double mass_in, double rest_mass_in, FourMomentum& four_momentum_in, double charge_in, double spin_in);
 
     //getters
     virtual double get_charge() const;
@@ -45,6 +46,9 @@ public:
     //other member functions
     virtual void antiparticle();
     virtual void print_data();
+
+    bool check_mass_consistency(FourMomentum& four_momentum_in) const;
+    void adjust_four_momentum(FourMomentum& four_momentum_in);
 };
 
 #endif

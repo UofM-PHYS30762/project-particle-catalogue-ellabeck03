@@ -11,8 +11,8 @@ using std::string;
 Quark::Quark() : Particle(), flavour("up"), colour("red") {}
 
 //parameterised constructor
-Quark::Quark(double mass_in, const FourMomentum& four_momentum_in, std::string flavour_in, std::string colour_in)
-    : Particle(mass_in, four_momentum_in, 0, 0.5), flavour(flavour_in)
+Quark::Quark(double mass_in, FourMomentum& four_momentum_in, std::string flavour_in, std::string colour_in)
+    : Particle(mass_in, determineRestMass(flavour_in), four_momentum_in, 0, 0.5), flavour(flavour_in)
     {
         if((flavour_in == "up") || (flavour_in == "charm") || (flavour_in == "top"))
         {
@@ -36,8 +36,26 @@ Quark::Quark(double mass_in, const FourMomentum& four_momentum_in, std::string f
             antiparticle_status = true;
         }
 
+        if((flavour_in == "up") || (flavour_in == "antiup")) {rest_mass = 2.2;}
+        if((flavour_in == "down") || (flavour_in == "antidown")) {rest_mass = 4.8;}
+        if((flavour_in == "charm") || (flavour_in == "anticharm")) {rest_mass = 1275;}
+        if((flavour_in == "strange") || (flavour_in == "antistrange")) {rest_mass = 95;}
+        if((flavour_in == "top") || (flavour_in == "antitop")) {rest_mass = 173070;}
+        if((flavour_in == "bottom") || (flavour_in == "antibottom")) {rest_mass = 4180;}
+
         set_colour(colour_in);
     }
+
+
+double Quark::determineRestMass(const std::string& flavour_in) {
+    if((flavour_in == "up") || (flavour_in == "antiup")) {return 2.2;}
+    if((flavour_in == "down") || (flavour_in == "antidown")) {return 4.8;}
+    if((flavour_in == "charm") || (flavour_in == "anticharm")) {return 1275;}
+    if((flavour_in == "strange") || (flavour_in == "antistrange")) {return 95;}
+    if((flavour_in == "top") || (flavour_in == "antitop")) {return 173070;}
+    if((flavour_in == "bottom") || (flavour_in == "antibottom")) {return 4180;}
+    return 0; // default case
+}
 
 //getters
 double Quark::get_baryon_number() const {return baryon_number;}

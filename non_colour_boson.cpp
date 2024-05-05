@@ -19,28 +19,52 @@ using std::string;
 NonColourBoson::NonColourBoson() : Particle(), flavour("W-") {}
 
 //parameterised constructor
-NonColourBoson::NonColourBoson(double mass_in, const FourMomentum& four_momentum_in, std::string flavour_in)
-    : Particle(mass_in, four_momentum_in, 0, 1), flavour(flavour_in)
-    {
-        if(flavour_in == "W+")
-        {
-            charge = 1.0;
-            flavour = flavour_in;
-        }
+// NonColourBoson::NonColourBoson(double mass_in, FourMomentum& four_momentum_in, std::string flavour_in)
+//     : Particle(mass_in, four_momentum_in, 0, 1), flavour(flavour_in)
+//     {
+//         if(flavour_in == "W+")
+//         {
+//             charge = 1.0;
+//             flavour = flavour_in;
+//             rest_mass = 80400;
+//         }
 
-        else if(flavour_in == "W-")
-        {
-            charge = -1.0;
-            flavour = flavour_in;
-        }
+//         else if(flavour_in == "W-")
+//         {
+//             charge = -1.0;
+//             flavour = flavour_in;
+//             rest_mass = 80400;
+//         }
 
-        else if((flavour_in == "Higgs") || (flavour_in == "Z") || (flavour_in == "photon"))
-        {
-            charge = 0.0;
-            spin = 0.0;
-            flavour = flavour_in;
-        }
-    }
+//         else if((flavour_in == "Higgs") || (flavour_in == "Z") || (flavour_in == "photon"))
+//         {
+//             charge = 0.0;
+//             spin = 0.0;
+//             flavour = flavour_in;
+
+//             if(flavour_in == "Higgs") {rest_mass = 126000;}
+//             if(flavour_in == "Z") {rest_mass = 91200;}
+//         }
+//     }
+
+NonColourBoson::NonColourBoson(double mass_in, FourMomentum& four_momentum_in, std::string flavour_in)
+    : Particle(mass_in, determineRestMass(flavour_in), four_momentum_in, determineCharge(flavour_in), 1), flavour(flavour_in)
+{
+    std::cout << "Rest Mass: " << rest_mass << std::endl;
+}
+
+double NonColourBoson::determineRestMass(const std::string& flavour_in) {
+    if (flavour_in == "Higgs") {return 126000;}
+    if (flavour_in == "Z") {return 91200;}
+    if (flavour_in == "W+" || flavour == "W-") {return 80400;}
+    return 0; // default case
+}
+
+double NonColourBoson::determineCharge(const std::string& flavour_in) {
+    if (flavour_in == "W+") {return 1.0;}
+    if (flavour_in == "W-") {return -1.0;}
+    return 0.0; // default case, includes Higgs, Z, and photon
+}
 
 //getters
 std::string NonColourBoson::get_flavour() const {return flavour;}

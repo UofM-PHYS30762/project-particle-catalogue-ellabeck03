@@ -15,12 +15,13 @@ class Gluon : public Particle
 {
 private:
     std::vector<std::string> colours;
+    double rest_mass{0};
 
 public:
     //default constructor
     Gluon();
     //parameterised constructor
-    Gluon(double mass_in, const FourMomentum& four_momentum_in, std::vector<std::string> colours_in);
+    Gluon(double mass_in, FourMomentum& four_momentum_in, std::vector<std::string> colours_in);
 
     //getters
     std::vector<std::string> get_colours() const;

@@ -16,13 +16,14 @@ class Muon : public Lepton
 {
 protected:
     bool is_isolated;
+    double rest_mass{105.7};
 
 public:
     //default constructor
     Muon();
 
     //parameterised constructor
-    Muon(double mass_in, const FourMomentum& four_momentum_in, bool is_isolated_in);
+    Muon(double mass_in, FourMomentum& four_momentum_in, bool is_isolated_in);
 
     //getters
     bool get_isolation_status() const;

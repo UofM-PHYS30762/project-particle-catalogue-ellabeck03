@@ -16,6 +16,7 @@
 #include "quark.h"
 #include "gluon.h"
 #include "non_colour_boson.h"
+#include "catalogue.h"
 
 using std::string;
 
@@ -52,28 +53,28 @@ int main()
 {
   std::vector<Lepton*> lepton_pointers;
 
-  FourMomentum electron1_momentum(20.0, {1.0, 2.0, 3.0});
-  FourMomentum muon1_momentum(200, {3.0, 4.0, 5.0});
+  FourMomentum electron1_momentum(20.0, {11.5432, 11.5432, 11.5432});
+  FourMomentum muon1_momentum(200, {98.0264, 98.0264, 98.0264});
   FourMomentum tau1_momentum(2000, {4.0, 5.0, 6.0});
-  FourMomentum neutrino1_momentum(2, {0.1, 0.2, 0.3});
+  FourMomentum neutrino1_momentum(40, {0.1, 0.2, 0.3});
   FourMomentum quark1_momentum(0.2, {0.01, 0.02, 0.03});
   FourMomentum quark2_momentum(0.2, {0.01, 0.02, 0.03});
   FourMomentum gluon1_momentum(100, {5.0, 6.0, 7.0});
   FourMomentum W1_momentum(400, {8.0, 9.0, 10.0});
 
-  // Electron electron1(0.511, electron1_momentum, {5, 5, 5, 5});
-  // electron1.print_data();
-  // std::shared_ptr<Electron> electron1_ptr = std::make_shared<Electron>(electron1);
+  Electron electron1(0.511, electron1_momentum, {5, 5, 5, 5});
+  //electron1.print_data();
+  std::shared_ptr<Electron> electron1_ptr = std::make_shared<Electron>(electron1);
 
-  // Muon muon1(106, muon1_momentum, false);
-  // muon1.print_data();
-  // std::shared_ptr<Muon> muon1_ptr = std::make_shared<Muon>(muon1);
+  Muon muon1(106, muon1_momentum, false);
+  //muon1.print_data();
+  std::shared_ptr<Muon> muon1_ptr = std::make_shared<Muon>(muon1);
 
 
-  // Neutrino neutrino1(0.5, neutrino1_momentum, true, "tau");
-  // std::shared_ptr<Neutrino> neutrino1_ptr = std::make_shared<Neutrino>(neutrino1);
-  // neutrino1.antiparticle();
-  // neutrino1.print_data();
+  Neutrino neutrino1(0.5, neutrino1_momentum, true, "tau");
+  std::shared_ptr<Neutrino> neutrino1_ptr = std::make_shared<Neutrino>(neutrino1);
+  neutrino1.antiparticle();
+  //neutrino1.print_data();
 
   // Neutrino neutrino2(0.5, neutrino1_momentum, true, "electron");
   // std::shared_ptr<Neutrino> neutrino2_ptr = std::make_shared<Neutrino>(neutrino2);
@@ -81,27 +82,55 @@ int main()
   Quark quark1(0.1, quark1_momentum, "bottom", "red");
   quark1.antiparticle();
   std::shared_ptr<Quark> quark1_ptr = std::make_shared<Quark>(quark1);
-  quark1.print_data();
+  //quark1.print_data();
 
   Quark quark2(0.1, quark2_momentum, "bottom", "red");
   std::shared_ptr<Quark> quark2_ptr = std::make_shared<Quark>(quark2);
-  quark1.print_data();
+  //quark1.print_data();
 
-  // Tau tau1(1011, tau1_momentum);
-  // tau1.print_data();
+  Tau tau1(1011, tau1_momentum);
+  //tau1.print_data();
   // tau1.add_decay_particle(neutrino1_ptr);
   // tau1.add_decay_particle(neutrino2_ptr);
   // tau1.add_decay_particle(electron1_ptr);
 
 
-  // Gluon gluon1(50, gluon1_momentum, {"antigreen", "blue"});
-  // gluon1.antiparticle();
-  // gluon1.print_data();
+  Gluon gluon1(50, gluon1_momentum, {"antigreen", "blue"});
+  gluon1.antiparticle();
+  //gluon1.print_data();
 
   NonColourBoson w1(200, W1_momentum, "Higgs");
-  w1.print_data();
+  //w1.print_data();
   w1.add_decay_particle(quark1_ptr);
   w1.add_decay_particle(quark2_ptr);
+
+  ParticleCatalogue catalogue;
+
+  // Add particles to the catalogue
+  catalogue.add_particle(electron1_ptr);
+  catalogue.add_particle(muon1_ptr);
+  catalogue.add_particle(neutrino1_ptr);
+  catalogue.add_particle(quark1_ptr);
+  catalogue.add_particle(quark2_ptr);
+  catalogue.add_particle(std::make_shared<Gluon>(gluon1));
+  catalogue.add_particle(std::make_shared<NonColourBoson>(w1));
+
+  // Use catalogue functions
+  std::cout << "Total number of particles: " << catalogue.get_particle_number() << std::endl;
+  catalogue.print_particles();
+
+  // Example to get particles of a specific type and print them
+  auto electrons = catalogue.get_particles_of_type("electron");
+  std::cout << "Number of electrons: " << electrons.size() << std::endl;
+  for (const auto& electron : electrons) {
+      electron->print_data();
+  }
+
+  // Sum of all momenta in the catalogue
+  FourMomentum total_momentum = catalogue.sum_momenta();
+  std::cout << "Total Momentum: Energy = " << total_momentum.get_energy();
+  std::vector<double> momentum = total_momentum.get_momentum();
+  std::cout << ", p = (" << momentum[0] << ", " << momentum[1] << ", " << momentum[2] << ")" << std::endl;
 
 
   return 0;

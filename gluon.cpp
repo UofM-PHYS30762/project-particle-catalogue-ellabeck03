@@ -11,8 +11,8 @@ using std::string;
 Gluon::Gluon() : Particle(), colours({"red", "antired"}) {}
 
 //parameterised constructor
-Gluon::Gluon(double mass_in, const FourMomentum& four_momentum_in, std::vector<std::string> colours_in)
-    : Particle(mass_in, four_momentum_in, 0, 1)
+Gluon::Gluon(double mass_in, FourMomentum& four_momentum_in, std::vector<std::string> colours_in)
+    : Particle(mass_in, 0, four_momentum_in, 0, 1)
     {
         set_colours(colours_in);
     }

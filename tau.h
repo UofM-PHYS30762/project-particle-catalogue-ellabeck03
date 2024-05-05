@@ -17,13 +17,14 @@ class Tau : public Lepton
 {
 private:
     std::vector<std::shared_ptr<Particle>> decay_particles;
+    double rest_mass{1777};
 
 public:
     //default constructor
     Tau();
 
     //parametrised constructor
-    Tau(double mass_in, const FourMomentum& four_momentum_in);
+    Tau(double mass_in, FourMomentum& four_momentum_in);
 
     //getters
     std::vector<std::shared_ptr<Particle>> get_decay_particles();

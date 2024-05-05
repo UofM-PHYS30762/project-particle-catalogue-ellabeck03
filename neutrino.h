@@ -18,13 +18,14 @@ protected:
     bool has_interacted;
     std::string flavour;
     int charge{0};
+    double rest_mass{0.0000022};
 
 public:
     //default constructor
     Neutrino();
 
     //parameterised constructor
-    Neutrino(double mass_in, const FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in);
+    Neutrino(double mass_in, FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in);
 
     //getters
     bool get_interaction_status() const;
@@ -44,6 +45,7 @@ public:
 
     //other member functions
     virtual void print_data() override;
+    double determineRestMass(const std::string& flavour_in);
 };
 
 #endif
