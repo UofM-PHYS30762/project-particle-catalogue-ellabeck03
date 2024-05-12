@@ -10,20 +10,20 @@
 
 using std::string;
 
-//default constructor
+// default constructor
 Muon::Muon() : Lepton(), is_isolated(false) {}
 
-//parameterised constructor
-Muon::Muon(double mass_in, FourMomentum& four_momentum_in, bool isolated_in) : Lepton(mass_in, 105.7, four_momentum_in, -1, 1), is_isolated(isolated_in) {}
+// parameterised constructor
+Muon::Muon(FourMomentum& four_momentum_in, bool isolated_in) : Lepton(105.7, four_momentum_in, -1, 1), is_isolated(isolated_in) {}
 
-//getters
+// getters
 bool Muon::get_isolation_status() const {return is_isolated;}
 std::string Muon::get_type() const { return "muon"; }
 
-//setters
+// setters
 void Muon::set_isolation_status(bool is_isolated_in) {is_isolated = is_isolated_in;}
 
-//other member functions
+// other member functions
 void Muon::print_data()
 {
     if (antiparticle_status == true)

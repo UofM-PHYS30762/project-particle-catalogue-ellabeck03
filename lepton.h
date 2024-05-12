@@ -17,17 +17,21 @@ private:
     int lepton_number; 
 
 public:
-    // Constructors
-    Lepton();  // Default constructor
-    Lepton(double mass_in, double rest_mass_in, FourMomentum& four_momentum_in, double charge_in, int lepton_number_in);
+    // default constructor
+    Lepton();
 
-    // Getter
+    // parameterised constructor
+    Lepton(double rest_mass_in, FourMomentum& four_momentum_in, double charge_in, int lepton_number_in);
+
+    // getters
     int get_lepton_number() const;
     std::string get_type() const override;
+
+    //o ther member functions
     void antiparticle() override;
     void print_data() override;
 
-    //Destructor
+    // destructor
     ~Lepton() {}
 };
 

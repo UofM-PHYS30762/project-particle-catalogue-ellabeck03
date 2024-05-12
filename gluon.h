@@ -21,7 +21,7 @@ public:
     //default constructor
     Gluon();
     //parameterised constructor
-    Gluon(double mass_in, FourMomentum& four_momentum_in, std::vector<std::string> colours_in);
+    Gluon(FourMomentum& four_momentum_in, std::vector<std::string> colours_in);
 
     //getters
     std::vector<std::string> get_colours() const;

@@ -19,23 +19,23 @@ protected:
     double rest_mass{105.7};
 
 public:
-    //default constructor
+    // default constructor
     Muon();
 
-    //parameterised constructor
-    Muon(double mass_in, FourMomentum& four_momentum_in, bool is_isolated_in);
+    // parameterised constructor
+    Muon(FourMomentum& four_momentum_in, bool is_isolated_in);
 
-    //getters
+    // getters
     bool get_isolation_status() const;
     std::string get_type() const override;
 
-    //setters
+    // setters
     void set_isolation_status(bool is_isolated_in);
 
-    //destructor
+    // destructor
     ~Muon() {}
 
-    //other member functions
+    // other member functions
     virtual void print_data() override;
 
 };

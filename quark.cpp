@@ -11,30 +11,9 @@ using std::string;
 Quark::Quark() : Particle(), flavour("up"), colour("red") {}
 
 //parameterised constructor
-Quark::Quark(double mass_in, FourMomentum& four_momentum_in, std::string flavour_in, std::string colour_in)
-    : Particle(mass_in, determineRestMass(flavour_in), four_momentum_in, 0, 0.5), flavour(flavour_in)
+Quark::Quark(FourMomentum& four_momentum_in, std::string flavour_in, std::string colour_in)
+    : Particle(determine_rest_mass(flavour_in), four_momentum_in, determine_charge(flavour_in), 0.5), flavour(flavour_in)
     {
-        if((flavour_in == "up") || (flavour_in == "charm") || (flavour_in == "top"))
-        {
-            charge = 2.0 / 3.0;
-        }
-
-        else if((flavour_in == "down") || (flavour_in == "strange") || (flavour_in == "bottom"))
-        {
-            charge = -1.0 / 3.0;
-        }
-
-        else if((flavour_in == "antiup") || (flavour_in == "anticharm") || (flavour_in == "antitop"))
-        {
-            charge = -2.0 / 3.0;
-            antiparticle_status = true;
-        }
-
-        else if((flavour_in == "antidown") || (flavour_in == "antistrange") || (flavour_in == "antibottom"))
-        {
-            charge = 1.0 / 3.0;
-            antiparticle_status = true;
-        }
 
         if((flavour_in == "up") || (flavour_in == "antiup")) {rest_mass = 2.2;}
         if((flavour_in == "down") || (flavour_in == "antidown")) {rest_mass = 4.8;}
@@ -47,7 +26,8 @@ Quark::Quark(double mass_in, FourMomentum& four_momentum_in, std::string flavour
     }
 
 
-double Quark::determineRestMass(const std::string& flavour_in) {
+double Quark::determine_rest_mass(const std::string& flavour_in) 
+{
     if((flavour_in == "up") || (flavour_in == "antiup")) {return 2.2;}
     if((flavour_in == "down") || (flavour_in == "antidown")) {return 4.8;}
     if((flavour_in == "charm") || (flavour_in == "anticharm")) {return 1275;}
@@ -55,6 +35,21 @@ double Quark::determineRestMass(const std::string& flavour_in) {
     if((flavour_in == "top") || (flavour_in == "antitop")) {return 173070;}
     if((flavour_in == "bottom") || (flavour_in == "antibottom")) {return 4180;}
     return 0; // default case
+}
+
+double Quark::determine_charge(const std::string& flavour_in)
+{
+    if((flavour_in == "up") || (flavour_in == "charm") || (flavour_in == "top"))
+    {
+        charge = 2.0 / 3.0;
+    }
+
+    else if((flavour_in == "down") || (flavour_in == "strange") || (flavour_in == "bottom"))
+    {
+        charge = -1.0 / 3.0;
+    }
+
+    return 0;
 }
 
 //getters
@@ -92,6 +87,7 @@ void Quark::print_data()
 
 void Quark::validate_colour(std::string colour_in)
 {
+    //checking quarks have colour and antiquarks have anticolour
     if((antiparticle_status == false) && (colour_in.length() >= 4) && (colour_in.substr(0, 4) == "anti"))
     {
         throw std::invalid_argument("Error: wrong colour set");

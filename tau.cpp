@@ -14,18 +14,18 @@
 
 using std::string;
 
-//default constructor
+// default constructor
 Tau::Tau() : Lepton() {}
 
-//parameterised constructor
-Tau::Tau(double mass_in, FourMomentum& four_momentum_in) : Lepton(mass_in, 1777, four_momentum_in, -1, 1) {}
+// parameterised constructor
+Tau::Tau(FourMomentum& four_momentum_in) : Lepton(1777, four_momentum_in, -1, 1) {}
 
-//getters
+// getters
 std::vector<std::shared_ptr<Particle>> Tau::get_decay_particles() {return decay_particles;}
 std::string Tau::get_type() const {return "tau";}
 
 
-//function to add a decay lepton
+// function to add a decay lepton
 void Tau::add_decay_particle(std::shared_ptr<Particle> particle_in)
 {
      decay_particles.push_back(particle_in);
@@ -39,54 +39,52 @@ void Tau::validate_decay()
     double charge_sum = 0;
     std::vector<std::shared_ptr<Particle>> leptons, neutrinos, quarks;
     
+    //same as NonColourBoson validate_decay() functions
     for (const auto& particle : decay_particles) {
         charge_sum += particle->get_charge();
         std::string flavor = particle->get_type();
 
-        if (dynamic_cast<Neutrino*>(particle.get())) {
-            neutrinos.push_back(particle);
-            std::cout << "Identified as Neutrino" << std::endl;
-        } else if (dynamic_cast<Electron*>(particle.get()) || dynamic_cast<Muon*>(particle.get())) {
-            leptons.push_back(particle);
-            std::cout << "Identified as Lepton with flavor: " << flavor << std::endl; // Debug
-        } else if (dynamic_cast<Quark*>(particle.get())) {
-            quarks.push_back(particle);
-            std::cout << "Identified as Quark" << std::endl;
-        } else {
-            throw std::runtime_error("Invalid particle type in Tau decay");
-        }
+        if (dynamic_cast<Neutrino*>(particle.get())) {neutrinos.push_back(particle);}
+        
+        else if (dynamic_cast<Electron*>(particle.get()) || dynamic_cast<Muon*>(particle.get())) {leptons.push_back(particle);}
+        
+        else if (dynamic_cast<Quark*>(particle.get())) {quarks.push_back(particle);}
+         
+        else {throw std::runtime_error("Invalid decay");}
     }
 
-    // Charge consistency check
-    if (charge_sum != charge) {
-        throw std::runtime_error("Charge inconsistency detected in Tau decay");
-    }
+    // charge consistency check
+    if (charge_sum != charge) {throw std::runtime_error("Error: charge inconsistency");}
 
-    // Validate decay combinations
-    bool isLeptonic = leptons.size() == 1 && neutrinos.size() == 2 && quarks.empty();
-    bool isHadronic = leptons.empty() && neutrinos.size() == 1 && quarks.size() == 2;
-    if (!isLeptonic && !isHadronic) {
+    // checking if the decays are allowed leptonic/hadronic decays
+    bool is_leptonic = leptons.size() == 1 && neutrinos.size() == 2 && quarks.empty();
+    bool is_hadronic = leptons.empty() && neutrinos.size() == 1 && quarks.size() == 2;
+    if (!is_leptonic && !is_hadronic) {
         throw std::runtime_error("Invalid decay combination for Tau");
     }
 
-    // Flavor matching for leptonic decays
-    if (isLeptonic) {
-        std::string leptonFlavor = leptons[0]->get_type();
-        bool flavorMatchFound = false;
-        for (const auto& neutrino : neutrinos) {
-            if (auto specificNeutrino = std::dynamic_pointer_cast<Neutrino>(neutrino)) {
-                if (leptonFlavor == specificNeutrino->get_flavour()) {
-                    flavorMatchFound = true;
+    // checking neutrino flavour matches lepton flavour
+    if (is_leptonic) 
+    {
+        std::string lepton_flavor = leptons[0]->get_type();
+
+        bool flavor_match = false;
+
+        for (const auto& neutrino : neutrinos) 
+        {
+            if (auto specific_neutrino = std::dynamic_pointer_cast<Neutrino>(neutrino)) 
+            {
+                if (lepton_flavor == specific_neutrino->get_flavour()) {
+                    flavor_match = true;//stopping if the lepton flavour matches the neutrino flavour
                     break;
                 }
             }
         }
-        if (!flavorMatchFound) {
-            throw std::runtime_error("Flavor mismatch in leptonic decay products");
-        }
+
+        if (!flavor_match) {throw std::runtime_error("Flavor mismatch in leptonic decay products");}
     }
     
-    std::cout << "Decay check completed successfully.\n";
+    std::cout << "Decay check completed successfully."<<std::endl;
 }
 
 //other member functions

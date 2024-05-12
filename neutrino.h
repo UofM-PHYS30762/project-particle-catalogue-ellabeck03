@@ -21,31 +21,31 @@ protected:
     double rest_mass{0.0000022};
 
 public:
-    //default constructor
+    // default constructor
     Neutrino();
 
-    //parameterised constructor
-    Neutrino(double mass_in, FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in);
+    // parameterised constructor
+    Neutrino(FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in);
 
-    //getters
+    // getters
     bool get_interaction_status() const;
     std::string get_flavour() const;
     double get_charge() const override;
     std::string get_type() const override;
 
-    //setters
+    // setters
     void set_interaction_status(bool has_interacted_in);
     void set_flavour(std::string flavour_in);
 
-    //destructor
+    // destructor
     ~Neutrino() {}
 
-    //validation
+    // validation
     void validate_flavour(std::string flavour_in);
 
-    //other member functions
+    // other member functions
     virtual void print_data() override;
-    double determineRestMass(const std::string& flavour_in);
+    double determine_rest_mass(const std::string& flavour_in);
 };
 
 #endif

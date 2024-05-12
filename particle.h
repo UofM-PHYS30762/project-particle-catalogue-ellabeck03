@@ -13,22 +13,20 @@ using std::string;
 class Particle
 {
 protected:
-    const double light_speed{1};
     double charge;
     double spin;
-    double mass;
     double rest_mass{0};
     FourMomentum four_momentum;
-    bool antiparticle_status;
+    bool antiparticle_status{false};// setting default particle as matter (rather than antimatter)
 
 public:
-    //default constructor
+    // default constructor
     Particle();
 
-    //parameterised constructor
-    Particle(double mass_in, double rest_mass_in, FourMomentum& four_momentum_in, double charge_in, double spin_in);
+    // parameterised constructor
+    Particle(double rest_mass_in, FourMomentum& four_momentum_in, double charge_in, double spin_in);
 
-    //getters
+    // getters
     virtual double get_charge() const;
     virtual double get_spin() const;
     double get_mass();
@@ -36,14 +34,14 @@ public:
     bool get_antiparticle_status() const;
     virtual std::string get_type() const;
 
-    //setters
+    // setters
     void set_mass(double mass_in);
     void set_four_momentum(FourMomentum& four_momentum_in);
 
-    //destructor
+    // destructor
     ~Particle() {}
     
-    //other member functions
+    // other member functions
     virtual void antiparticle();
     virtual void print_data();
 

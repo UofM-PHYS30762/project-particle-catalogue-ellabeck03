@@ -11,50 +11,49 @@ using std::string;
 class FourMomentum
 {
 private:
-    const double light_speed{2.99792458e8};
+    const double light_speed{1};
     double energy;
     std::vector<double> momentum;
 
 public:
-    //default constructor
+    // default constructor
     FourMomentum();
 
-    //parameterised constructor
+    // parameterised constructor
     FourMomentum(double energy_in, const std::vector<double>& momentum_in);
 
-    //setters
+    // setters
     void set_energy(const double energy_in);
     void set_momentum(const std::vector<double>& momentum_in);
 
-    //assignment operator
+    // assignment operator
     FourMomentum& operator=(const FourMomentum& other);
 
-    //move operator
+    // move operator
     FourMomentum& operator=(FourMomentum&& other);
 
-    //copy constructor
+    // copy constructor
     FourMomentum(const FourMomentum& other);
 
-    //move constructor
+    // move constructor
     FourMomentum(FourMomentum&& other);
 
-    //destructor
+    // destructor
     ~FourMomentum() {}
 
-    //getter functions
+    // getter functions
     double get_energy() const;
     std::vector<double> get_momentum() const;
 
-
-    //other member functions
+    // other member functions
     void validate_energy(const double energy_in);
     double invariant_mass() const;
 
-    //operator overloads
+    // operator overloads
     FourMomentum operator-(const FourMomentum& other) const;
     FourMomentum operator+(const FourMomentum& other) const;
 
-    //friend functions
+    // friend functions
     friend std::vector<double> sum_four_vectors(const FourMomentum& momentum1, const FourMomentum& momentum2);
     friend double dot_product(const FourMomentum& momentum1, const FourMomentum& momentum2);
 

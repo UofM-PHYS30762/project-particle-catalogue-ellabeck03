@@ -20,29 +20,30 @@ private:
     double rest_mass{0};
 
 public:
-    //default constructor
+    // default constructor
     NonColourBoson();
 
-    //parameterised constructor
-    NonColourBoson(double mass_in, FourMomentum& four_momentum_in, std::string flavour_in);
+    // parameterised constructor
+    NonColourBoson(FourMomentum& four_momentum_in, std::string flavour_in);
 
-    //getters
+    // getters
     std::string get_flavour() const;
     std::vector<std::shared_ptr<Particle>> get_decay_particles();
     std::string get_type() const override;
 
-    //destructor
+    // destructor
     ~NonColourBoson() {}
 
-    //function to add a decay particle
+    // function to add a decay particle
     void add_decay_particle(std::shared_ptr<Particle> decay_lepton_in);
 
-    //non-member functions
+    // non-member functions
     virtual void antiparticle() override;
     virtual void print_data() override;
     void validate_decay() const;
-    double determineRestMass(const std::string& flavour_in);
-    double determineCharge(const std::string& flavour_in);
+    double determine_rest_mass(const std::string& flavour_in);
+    double determine_charge(const std::string& flavour_in);
+    int determine_spin(const std::string& spin_in);
 };
 
 #endif

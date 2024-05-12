@@ -20,24 +20,24 @@ private:
     double rest_mass{1777};
 
 public:
-    //default constructor
+    // default constructor
     Tau();
 
-    //parametrised constructor
-    Tau(double mass_in, FourMomentum& four_momentum_in);
+    // parametrised constructor
+    Tau(FourMomentum& four_momentum_in);
 
-    //getters
+    // getters
     std::vector<std::shared_ptr<Particle>> get_decay_particles();
     std::string get_type() const override;
 
-    //destructor
+    // destructor
     ~Tau() {}
 
-    //function to add a decay lepton
+    // function to add a decay lepton
     void add_decay_particle(std::shared_ptr<Particle> particle_in);
     void validate_decay();
 
-    //other member functions
+    // other member functions
     virtual void print_data() override;
 };
 

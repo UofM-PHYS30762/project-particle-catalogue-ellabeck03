@@ -18,52 +18,27 @@ using std::string;
 //default constructor
 NonColourBoson::NonColourBoson() : Particle(), flavour("W-") {}
 
-//parameterised constructor
-// NonColourBoson::NonColourBoson(double mass_in, FourMomentum& four_momentum_in, std::string flavour_in)
-//     : Particle(mass_in, four_momentum_in, 0, 1), flavour(flavour_in)
-//     {
-//         if(flavour_in == "W+")
-//         {
-//             charge = 1.0;
-//             flavour = flavour_in;
-//             rest_mass = 80400;
-//         }
+NonColourBoson::NonColourBoson(FourMomentum& four_momentum_in, std::string flavour_in)
+    : Particle(determine_rest_mass(flavour_in), four_momentum_in, determine_charge(flavour_in), determine_spin(flavour_in)), flavour(flavour_in)
+{}
 
-//         else if(flavour_in == "W-")
-//         {
-//             charge = -1.0;
-//             flavour = flavour_in;
-//             rest_mass = 80400;
-//         }
-
-//         else if((flavour_in == "Higgs") || (flavour_in == "Z") || (flavour_in == "photon"))
-//         {
-//             charge = 0.0;
-//             spin = 0.0;
-//             flavour = flavour_in;
-
-//             if(flavour_in == "Higgs") {rest_mass = 126000;}
-//             if(flavour_in == "Z") {rest_mass = 91200;}
-//         }
-//     }
-
-NonColourBoson::NonColourBoson(double mass_in, FourMomentum& four_momentum_in, std::string flavour_in)
-    : Particle(mass_in, determineRestMass(flavour_in), four_momentum_in, determineCharge(flavour_in), 1), flavour(flavour_in)
-{
-    std::cout << "Rest Mass: " << rest_mass << std::endl;
-}
-
-double NonColourBoson::determineRestMass(const std::string& flavour_in) {
+double NonColourBoson::determine_rest_mass(const std::string& flavour_in) {
     if (flavour_in == "Higgs") {return 126000;}
     if (flavour_in == "Z") {return 91200;}
     if (flavour_in == "W+" || flavour == "W-") {return 80400;}
     return 0; // default case
 }
 
-double NonColourBoson::determineCharge(const std::string& flavour_in) {
+double NonColourBoson::determine_charge(const std::string& flavour_in) {
     if (flavour_in == "W+") {return 1.0;}
     if (flavour_in == "W-") {return -1.0;}
     return 0.0; // default case, includes Higgs, Z, and photon
+}
+
+int NonColourBoson::determine_spin(const std::string& flavour_in)
+{
+    if (flavour_in == "Higgs") {return 0;}
+    return 1;
 }
 
 //getters
@@ -83,26 +58,17 @@ void NonColourBoson::antiparticle()
 {
     Particle::antiparticle();
     
-    if(flavour == "W-")
-    {
-        flavour= "W+";
-    }
+    if(flavour == "W-") {flavour= "W+";}
 
-    else if(flavour == "W+")
-    {
-        flavour = "W-";
-    }
+    else if(flavour == "W+") {flavour = "W-";}
 
-    else if((flavour == "Higgs") || (flavour == "Z") || (flavour == "photon"))
-    {
-        throw std::invalid_argument("error: this particle has no antiparticle");
-    }
+    else if((flavour == "Higgs") || (flavour == "Z") || (flavour == "photon")) {throw std::invalid_argument("error: this particle has no antiparticle");}
 }
 
 void NonColourBoson::print_data()
 {
     std::cout << "Particle type: " << flavour << " boson"<< std::endl;
-    Particle::print_data(); // Call base class print method
+    Particle::print_data();
     std::cout << "--------------" << std::endl;
 }
 
@@ -111,28 +77,34 @@ void NonColourBoson::validate_decay() const
     double charge_sum = 0;
     std::vector<std::shared_ptr<Particle>> leptons, neutrinos, quarks, bosons;
 
-    //checking no photons have decayed
+    // checking no photons have decayed
     if (flavour == "photon") 
     {
         if (!(decay_particles.empty())) {throw std::runtime_error("Photons should not decay.");}
     }
 
-    //checking charge consistency
+    // checking charge consistency
     for (const auto& particle : decay_particles) 
     {
         charge_sum += particle->get_charge();
         std::string flavor = particle->get_type();
 
+        /*
+        these methods check if each decay particle pointer can be casted to a specific particle type (i.e. checking which type of particle a pointer of type <particle>
+        is referring to). it then pushes the particle into an array detailing what type it is. this helps validate a decay by checking the particle is undergoing a
+        delay to allowed particles.)
+        */
         if (dynamic_cast<Neutrino*>(particle.get())) {neutrinos.push_back(particle);} 
         else if (dynamic_cast<Lepton*>(particle.get())) {leptons.push_back(particle);}
         else if (dynamic_cast<Quark*>(particle.get())) {quarks.push_back(particle);} 
         else if (dynamic_cast<NonColourBoson*>(particle.get())) {bosons.push_back(particle);} 
-        else {throw std::runtime_error("Invalid particle type in Tau decay");}
+
+        else {throw std::runtime_error("Error: invalid particle type");}
     }
 
-    if (charge_sum != charge) {throw std::runtime_error("Charge inconsistency detected");}
+    if (charge_sum != charge) {throw std::runtime_error("Error: charge inconsistency");}
 
-    //checking valid W boson decays
+    //checking valid W boson decays (bools refer to if user-inputted decays match allowed particle decays)
     bool valid_w_decay1 = (leptons.size() == 1) && (neutrinos.size() == 1);
     bool valid_w_decay2 = (quarks.size() == 2);
 
@@ -185,8 +157,9 @@ void NonColourBoson::validate_decay() const
 
         if (valid_higgs_decay1)
         {
+            //checking bosonic decays are of the right type
             auto boson1 = std::dynamic_pointer_cast<NonColourBoson>(bosons[0]);
-            auto boson2 = std::dynamic_pointer_cast<Quark>(bosons[1]);
+            auto boson2 = std::dynamic_pointer_cast<NonColourBoson>(bosons[1]);
 
             if ((boson1->get_flavour() == boson2->get_flavour()) && (boson1->get_flavour() == "Higgs" || boson1->get_flavour() == "photon"))
             {

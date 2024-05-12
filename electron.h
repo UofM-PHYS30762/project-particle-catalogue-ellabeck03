@@ -7,28 +7,28 @@
 class Electron : public Lepton 
 {
 protected:
-    std::vector<double> deposited_energies; // Energies deposited in calorimeter layers
+    std::vector<double> deposited_energies; // energies deposited in calorimeter layers
     double rest_mass{0.511};
 
 public:
-    // Constructors
+    // default constructor
     Electron();
-    Electron(double mass_in, FourMomentum& four_momentum_in, const std::vector<double>& deposited_energies_in);
 
-    // Getters
+    //parameterised constructor
+    Electron(FourMomentum& four_momentum_in, const std::vector<double>& deposited_energies_in);
+
+    // getters
     const std::vector<double>& get_deposited_energies() const;
     std::string get_type() const override;
 
-    // Setters
+    // setters
     void set_deposited_energies(const std::vector<double>& deposited_energies);
 
-    //Destructor
+    // destructor
     ~Electron() {}
 
-    // Validation
+    // other member functions
     void validate_deposited_energies(const std::vector<double>& deposited_energies);
-
-    // Override print_data to include electron-specific information
     void print_data() override;
 };
 

@@ -10,11 +10,11 @@
 
 using std::string;
 
-//default constructor
-Neutrino::Neutrino() : Lepton(), has_interacted(false), flavour("electron") {}
+// default constructor
+Neutrino::Neutrino() : Lepton(), has_interacted(false), flavour("electron") {}//setting default flavour to 'electron'
 
-//parameterised constructor
-Neutrino::Neutrino(double mass_in, FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in) : Lepton(mass_in, determineRestMass(flavour_in), four_momentum_in, 0, 1),
+// parameterised constructor
+Neutrino::Neutrino(FourMomentum& four_momentum_in, bool has_interacted_in, std::string flavour_in) : Lepton(determine_rest_mass(flavour_in), four_momentum_in, 0, 1),
 has_interacted(has_interacted_in)
 {
     set_flavour(flavour_in);
@@ -61,12 +61,11 @@ void Neutrino::print_data()
         std::cout<<"Particle type: Neutrino"<<std::endl;
     }
 
-    std::cout<<charge<<std::endl;
     std::cout<<"Flavour: "<<flavour<<std::endl;
     Lepton::print_data();
 }
 
-double Neutrino::determineRestMass(const std::string& flavour_in) {
+double Neutrino::determine_rest_mass(const std::string& flavour_in) {
     if (flavour_in == "electron") {return 0.0000022;}
     if (flavour_in == "muon") {return 0.17;}
     if (flavour_in == "tau") {return 15.5;}
