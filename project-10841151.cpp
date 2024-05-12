@@ -9,6 +9,7 @@
 #include<cmath>
 #include <chrono>
 
+#include "particle.h"
 #include "fourmomentum.h"
 #include "electron.h"
 #include "muon.h"
@@ -140,6 +141,7 @@ int main()
   gluon1.antiparticle();//gluon is its own antiparticle, only 1 pointer used
 
   NonColourBoson higgs1(higgs1_momentum, "Higgs");
+  //add decay particles to show that the validation is working (will print a statement in the terminal if successful)
   higgs1.add_decay_particle(quark1_ptr);
   higgs1.add_decay_particle(quark1_ptr2);
 
@@ -242,11 +244,19 @@ int main()
   std::cout << ", p = (" << momentum[0] << ", " << momentum[1] << ", " << momentum[2] << "))" << std::endl;
   std::cout << "--------------" << std::endl;
 
+  // Retrieve sub-catalogue of electrons
+  std::vector<std::shared_ptr<Particle>> sub_catalogue = catalogue.get_particles_of_type("electron");
+
+  // Print data of each electron particle
+  std::cout << "Sub-catalogue of electrons:" << std::endl;
+  for (const auto& electron : sub_catalogue)
+  {
+      electron->print_data();
+  }
+
 
   auto end = std::chrono::high_resolution_clock::now();
-
   auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-
   std::cout << "Execution time: " << duration << " ms" << std::endl;
 
   return 0;

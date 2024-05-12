@@ -42,6 +42,13 @@ void Electron::validate_deposited_energies(const std::vector<double>& deposited_
 
 void Electron::print_data() 
 {
-    std::cout << "Particle type: " << (get_antiparticle_status() ? "Positron" : "Electron") << std::endl;
+    std::cout<<"Particle type: "<<(get_antiparticle_status() ? "Positron" : "Electron")<< std::endl;
+
+    std::cout << "Deposited energies: (";
+    for (double energy : deposited_energies) {
+        std::cout<< " " <<energy<<",";
+    }
+    std::cout<<") MeV"<<std::endl;
+
     Lepton::print_data();
 }
